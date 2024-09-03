@@ -103,12 +103,12 @@ const TailAlert = {
     showAlert() {
         this.alertContainer.classList.remove("hidden")
         setTimeout(() => {
-            this.alertContainer.classList.add("translate-y-[-50%]")
+            this.alertContainer.classList.add("!translate-y-[-50%]")
         },1)
     },
 
     hideAlert() {
-        this.alertContainer.classList.remove("translate-y-[-50%]")
+        this.alertContainer.classList.remove("!translate-y-[-50%]")
         setTimeout(() => {
             this.alertContainer.classList.add("hidden")
             this.alertContainer.remove()
