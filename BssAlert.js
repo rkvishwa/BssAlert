@@ -44,7 +44,7 @@ const TailAlert = {
 
         this.alertContainer = document.createElement("tail-alert");
 
-        this.alertContainer.className = "fixed w-[95%] max-w-[500px] z-50 bg-white left-1/2 translate-x-[-50%] shadow border-gray-300 rounded-xl overflow-hidden translate-y-[-100%] hidden transition duration-700";
+        this.alertContainer.className = "fixed w-[95%] max-w-[500px] z-50 bg-white top-1/4 left-1/2 translate-x-[-50%] shadow border-gray-300 rounded-xl overflow-hidden translate-y-[-50vh] hidden transition duration-700";
         this.alertContainer.id = "alert-container";
         this.alertContainer.innerHTML = `
             <div class="bg-white rounded-lg">
@@ -103,12 +103,12 @@ const TailAlert = {
     showAlert() {
         this.alertContainer.classList.remove("hidden")
         setTimeout(() => {
-            this.alertContainer.classList.add("translate-y-full")
+            this.alertContainer.classList.add("translate-y-[-50%]")
         },1)
     },
 
     hideAlert() {
-        this.alertContainer.classList.remove("translate-y-full")
+        this.alertContainer.classList.remove("translate-y-[-50%]")
         setTimeout(() => {
             this.alertContainer.classList.add("hidden")
             this.alertContainer.remove()
