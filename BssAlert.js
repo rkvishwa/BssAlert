@@ -45,7 +45,7 @@ const TailAlert = {
         this.alertContainer = document.createElement("tail-alert");
 
         this.alertContainer.className = "fixed w-[95%] max-w-[500px] z-50 bg-white top-1/4 left-1/2 translate-x-[-50%] shadow border-gray-300 rounded-xl overflow-hidden translate-y-[-50vh] hidden transition duration-700";
-        this.alertContainer.id = "alert-container";
+        this.alertContainer.id = `alert-container-${Math.floor(Date.now() / 1000)}`;
         this.alertContainer.innerHTML = `
             <div class="bg-white rounded-lg">
                 <div class="w-full border-t-8 border-${color}-600 rounded-lg flex flex-col px-8 py-6">
@@ -73,13 +73,13 @@ const TailAlert = {
             this.confirmButton = document.getElementById("tail-alert-confirm");
             this.promise = new Promise((resolve, reject) => {
                 this.closeButton.onclick = () => {
-                    this.hideAlert()
+                    this.hideAlert(this.alertContainer)
                     resolve(false)
                     this.closeButton.onclick = null
                     this.confirmButton.onclick = null
                 }
                 this.confirmButton.onclick = () => {
-                    this.hideAlert()
+                    this.hideAlert(this.alertContainer)
                     resolve(true)
                     this.closeButton.onclick = null
                     this.confirmButton.onclick = null
@@ -88,7 +88,7 @@ const TailAlert = {
         }else{
             this.promise = new Promise((resolve, reject) => {
                 this.closeButton.onclick = () => {
-                    this.hideAlert()
+                    this.hideAlert(this.alertContainer)
                     resolve(false)
                     this.closeButton.onclick = null
                 }
@@ -107,11 +107,11 @@ const TailAlert = {
         },1)
     },
 
-    hideAlert() {
+    hideAlert(container) {
         this.alertContainer.classList.remove("!translate-y-[-50%]")
-        setTimeout(() => {
-            this.alertContainer.classList.add("hidden")
-            this.alertContainer.remove()
-        },500)
+        setTimeout((container) => {
+            container.classList.add("hidden")
+            container.remove()
+        },500, container)
     }
 }
