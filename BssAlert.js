@@ -11,18 +11,18 @@ const icons = {
         <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 bg-white text-blue-600 rounded-full" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM11 15V17H13V15H11ZM11 7V13H13V7H11Z"></path>
         </svg>`
-    };
+    }
 
 const colors = {
-    success: "green",
-    error: "red",
-    info: "blue"
-};
+    success: {text: "text-green-700", border: "border-green-600"},
+    error: {text: "text-red-700", border: "border-red-600"},
+    info: {text: "text-blue-700", border: "border-blue-600"},
+}
 
 const TailAlert = {
     show({icon:iconType, button, buttons, title, body}){
-        const iconSvg = icons[iconType] || icons.error;
-        const color = colors[iconType] || colors.error;
+        const iconSvg = icons[iconType] || icons.error
+        const color = colors[iconType] || colors.error
 
         if(button && button.length > 0){
             this.buttonNames = ['', String(button)]
@@ -48,10 +48,10 @@ const TailAlert = {
         this.alertContainer.id = `alert-container-${Math.floor(Date.now() / 1000)}`;
         this.alertContainer.innerHTML = `
             <div class="bg-white rounded-lg">
-                <div class="w-full border-t-8 border-${color}-600 rounded-lg flex flex-col px-8 py-6">
+                <div class="w-full border-t-8 ${color.border} rounded-lg flex flex-col px-8 py-6">
                 <div class="w-full flex items-center justify-start gap-6" id="alert-icon">
                     <span>${iconSvg}</span>
-                    <h3 class="font-extrabold text-${color}-700 font-nunito text-xl" id="alert-title">${title || ""}</h3>
+                    <h3 class="font-extrabold ${color.text} font-nunito text-xl" id="alert-title">${title || ""}</h3>
                 </div>
                 <div class="w-full pr-4">
                     <p class="pt-4 text-sm text-gray-600 font-nunito" id="alert-body">${body || ""}</p>
