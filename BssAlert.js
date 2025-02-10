@@ -20,7 +20,7 @@ const colors = {
 }
 
 const TailAlert = {
-    show({icon:iconType, button, buttons, title, body}){
+    show({icon:iconType, button, buttons, title, body, checkbox}){
         const iconSvg = icons[iconType] || icons.error
         const color = colors[iconType] || colors.error
 
@@ -49,19 +49,28 @@ const TailAlert = {
         this.alertContainer.innerHTML = `
             <div class="bg-white rounded-lg">
                 <div class="w-full border-t-8 ${color.border} rounded-lg flex flex-col px-8 py-6">
-                <div class="w-full flex items-center justify-start gap-6" id="alert-icon">
-                    <span>${iconSvg}</span>
-                    <h3 class="font-extrabold ${color.text} font-nunito text-xl" id="alert-title">${title || ""}</h3>
-                </div>
-                <div class="w-full pr-4">
-                    <p class="pt-4 text-sm text-gray-600 font-nunito" id="alert-body">${body || ""}</p>
-                </div>
+                    <div class="w-full flex items-center justify-start gap-6" id="alert-icon">
+                        <span>${iconSvg}</span>
+                        <h3 class="font-extrabold ${color.text} font-nunito text-xl" id="alert-title">${title || ""}</h3>
+                    </div>
+                    <div class="w-full pr-4">
+                        <p class="pt-4 text-sm text-gray-600 font-nunito" id="alert-body">${body || ""}</p>
+                        ${checkbox ? 
+                        `<div class="flex items-center mt-8 gap-2">
+                            <label class="relative rounded-full px-5 h-[1.2rem] bg-gray-200 cursor-pointer has-[:checked]:bg-blue-500">
+                                <input type="checkbox" class="hidden peer" id="tail-alert-checkbox">
+                                <span class="absolute left-0.5 top-0.5 bg-white rounded-full h-[1rem] aspect-square peer-checked:left-auto peer-checked:right-0.5 duration-500"></span>
+                            </label>
+                            <span class="text-sm text-gray-600 font-nunito">${checkbox}</span>
+                        </div>` : ''}   
+                        
+                    </div>
                 </div>
                 <div class="p-4 pt-0 flex justify-end space-x-2">
-                ${buttons ? 
-                `<button id="tail-alert-confirm" class="${buttons ? 'w-fit px-8 bg-white hover:bg-gray-200 hover:border-gray-200' : 'w-1/2 px-4 bg-gray-200 hover:text-gray-700 hover:bg-gray-300 hover:border-gray-300'} min-w-32 border-2 border-gray-200 py-3 text-center text-gray-500 font-bold duration-300 rounded-lg text-sm font-nunito">${this.buttonNames[0]}</button>` : ''}
+                    ${buttons ? 
+                    `<button id="tail-alert-confirm" class="${buttons ? 'w-fit px-8 bg-white hover:bg-gray-200 hover:border-gray-200' : 'w-1/2 px-4 bg-gray-200 hover:text-gray-700 hover:bg-gray-300 hover:border-gray-300'} min-w-32 border-2 border-gray-200 py-3 text-center text-gray-500 font-bold duration-300 rounded-lg text-sm font-nunito">${this.buttonNames[0]}</button>` : ''}
 
-                <button id="tail-alert-close" class="w-fit min-w-32 px-8 py-3 text-center bg-gray-200 text-gray-500 hover:bg-gray-300 hover:text-gray-700 border-2 border-gray-200 hover:border-gray-300 font-bold rounded-lg text-sm font-nunito duration-300">${this.buttonNames[1]}</button>
+                    <button id="tail-alert-close" class="w-fit min-w-32 px-8 py-3 text-center bg-gray-200 text-gray-500 hover:bg-gray-300 hover:text-gray-700 border-2 border-gray-200 hover:border-gray-300 font-bold rounded-lg text-sm font-nunito duration-300">${this.buttonNames[1]}</button>
                 </div>
             </div>
             `;
@@ -74,13 +83,23 @@ const TailAlert = {
             this.promise = new Promise((resolve, reject) => {
                 this.closeButton.onclick = () => {
                     this.hideAlert(this.alertContainer)
-                    resolve(false)
+                    const checkboxState = checkbox ? document.getElementById('tail-alert-checkbox').checked : false;
+                    if(checkbox){
+                        resolve({ value: false, checked: checkboxState })
+                    }else{
+                        resolve(false)
+                    }
                     this.closeButton.onclick = null
                     this.confirmButton.onclick = null
                 }
                 this.confirmButton.onclick = () => {
                     this.hideAlert(this.alertContainer)
-                    resolve(true)
+                    const checkboxState = checkbox ? document.getElementById('tail-alert-checkbox').checked : false;
+                    if(checkbox){
+                        resolve({ value: true, checked: checkboxState })
+                    }else{
+                        resolve(true)
+                    }
                     this.closeButton.onclick = null
                     this.confirmButton.onclick = null
                 }
@@ -89,7 +108,12 @@ const TailAlert = {
             this.promise = new Promise((resolve, reject) => {
                 this.closeButton.onclick = () => {
                     this.hideAlert(this.alertContainer)
-                    resolve(false)
+                    const checkboxState = checkbox ? document.getElementById('tail-alert-checkbox').checked : false;
+                    if(checkbox){
+                        resolve({ value: false, checked: checkboxState })
+                    }else{
+                        resolve(false)
+                    }
                     this.closeButton.onclick = null
                 }
             })
